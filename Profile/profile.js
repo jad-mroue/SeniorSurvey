@@ -60,12 +60,14 @@ export default class Profile extends Component{
                 <TouchableOpacity 
                     onPress={() => this.props.navigation.navigate('ListSurveysScreen') }
                     style={styles.ToSurvey}
+                    disabled = { this.state.Role != 'student' }
                 >
                     <Text style={styles.ChangePasswordButtonText}>To Survey</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
-                    onPress={() => this.props.navigation.navigate('') }
+                    onPress={() => this.props.navigation.navigate('Home') }
                     style={styles.ToResults}
+                    disabled = { this.state.Role != 'staff' }
                 >
                     <Text style={styles.ChangePasswordButtonText}>To Results</Text>
                 </TouchableOpacity>

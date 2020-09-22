@@ -13,7 +13,7 @@ class ForgotPass extends Component {
     this.setState({email: email})
   }
   forgotpass = async (ID, email, Role) => {
-    const forgotUrl = "https://survey-ul.info/server/api/auth/forgot"
+    const forgotUrl = "https://server.survey-ul.info/server/api/auth/forgot"
     const user = {
        id: ID,
        password: pass,

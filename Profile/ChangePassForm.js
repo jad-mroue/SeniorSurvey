@@ -14,7 +14,7 @@ export default class ChangePassForm extends Component{
         BorderColor_Confirm: '#1C2039'
     } 
     ChangePassword = async (old_password, new_password) => {
-        const forgotUrl = "https://survey-ul.info/server/api/profile/password"
+        const forgotUrl = "https://server.survey-ul.info/server/api/profile/password"
         const password_change = {
             old_password: old_password,
             new_password: new_password

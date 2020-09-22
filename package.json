@@ -18,10 +18,12 @@
     "axios": "^0.20.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "qrcode": "^1.4.4",
     "react": "16.13.1",
     "react-dom": "^16.13.1",
     "react-native": "0.63.2",
     "react-native-appearance": "^0.3.4",
+    "react-native-chart-kit": "^6.6.1",
     "react-native-gesture-handler": "^1.7.0",
     "react-native-paper": "^4.1.0",
     "react-native-radio-button-group": "^1.0.3",
@@ -29,9 +31,12 @@
     "react-native-safe-area-context": "^3.1.6",
     "react-native-screens": "^2.10.1",
     "react-native-simple-radio-button": "^2.7.4",
+    "react-native-speedometer-chart": "^0.7.5",
+    "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^2.15.1",
     "react-native-vector-icons": "^7.1.0",
-    "react-native-web": "^0.13.12"
+    "react-native-web": "^0.13.12",
+    "react-skillbars": "^1.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

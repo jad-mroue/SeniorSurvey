@@ -24,7 +24,7 @@ export default class Inputs extends Component{
    }
 
    login = async (ID, pass, Role) => {
-      const loginURL = "https://survey-ul.info/server/api/auth/login"
+      const loginURL = "https://server.survey-ul.info/server/api/auth/login"
       const user = {
          id: ID,
          password: pass,
@@ -98,7 +98,7 @@ export default class Inputs extends Component{
    
    LoginRemebered = async () => {
       this.getInfo()
-      const loginURL = "https://survey-ul.info/server/api/auth/login"
+      const loginURL = "https://server.survey-ul.info/server/api/auth/login"
       const user = {
          id: this.state.id,
          password: this.state.password,

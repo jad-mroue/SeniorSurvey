@@ -7,8 +7,12 @@ import Inputs from './LoginPage/Inputs'
 import ForgotPass from './LoginPage/ForgotPass'
 import Profile from './Profile/profile'
 import ChangePassForm from './Profile/ChangePassForm';
-import ListQuestionScreen from './screens/list.questions.screen'
+import ListQuestions from './screens/list.questions.screen'
 import ListSurveysScreen from './screens/list.surveys.screen'
+import Home from './screens/HomeScreen'
+import DeanScreen from './screens/DeanScreen'
+import PresidentScreen from './screens/PresidentScreen'
+import TeacherScreen from './screens/TeacherScreen'
 const Stack = createStackNavigator()
 
 
@@ -41,6 +45,21 @@ const Use = (
         </Stack.Screen>
         <Stack.Screen name='ListSurveysScreen' options={{title: 'Survey'}}>
           {props => <ListSurveysScreen {...props}  />}
+        </Stack.Screen>
+        <Stack.Screen name='ListQuestions' options={{title: 'Survey'}}>
+          {props => <ListQuestions {...props}  />}
+        </Stack.Screen>
+        <Stack.Screen name='Home' options={{title: 'Home'}}>
+          {props => <Home {...props}  />}
+        </Stack.Screen>
+        <Stack.Screen name='President' options={{title: 'President Results'}}>
+          {props => <PresidentScreen {...props}  />}
+        </Stack.Screen>
+        <Stack.Screen name='Dean' options={{title: 'Dean Results'}}>
+          {props => <DeanScreen {...props}  />}
+        </Stack.Screen>
+        <Stack.Screen name='Teacher' options={{title: 'Teacher Results'}}>
+          {props => <TeacherScreen {...props}  />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>  
