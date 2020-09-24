@@ -20,12 +20,12 @@ const ListQuestionScreen = ({ route }) => {
   console.log(route.params.department_id);
   const [list, setList] = React.useState([]);
 
-  let answers = []
+  let answers = [];
 
   // const [answers, setAnswers] = React.useState([]);
 
   const [chosenQuestionOption, setChosenQuestionOption] = React.useState([]);
-  const [free_text, setFreeText] = React.useState("");
+  const [freetext, setFreeText] = React.useState("");
   const [teacher, setTeacher] = React.useState("");
 
   const expand = (index) => {
@@ -46,15 +46,13 @@ const ListQuestionScreen = ({ route }) => {
       // url: url + `student/course/66/1`,
 
       headers: {
-        x_auth_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI2Iiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2MDA1MDg3MTIsImV4cCI6MTYwMDc2NzkxMn0.DlVBjnT5O94HHN8ud0Zty8LVr2oxRRY7YcYx5MqeC0g",
-      },
+        x_auth_token:  token      },
     })
       .then((response) => {
         console.log("here");
         console.log(response.data);
         // con(JSON.stringify(response.data))
-        setTeacher(response.data.teacher.teacher_id)
+        setTeacher(response.data.teacher.teacher_id);
         let list = response.data.lists;
         list.forEach((l) => {
           l.expanded = false;
@@ -68,57 +66,59 @@ const ListQuestionScreen = ({ route }) => {
 
   React.useEffect(() => {
     getListOfQuestions();
+
+    list.forEach((l, i) => {
+      l.questions.forEach((question, j) => {
+        question.selectedOption = "";
+      });
+    });
   }, []);
-  console.log(chosenQuestionOption);
 
   const submitAnswers = () => {
     Axios({
-      url:
-        url +
-        `student/course/${route.params.section_id}`,
+      url: url + `student/course/${route.params.section_id}`,
       method: "POST",
       data: {
-        free_text: free_text,
+        free_text: freetext,
         teacher_id: teacher,
         answers,
       },
       headers: {
-        x_auth_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI2Iiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2MDA1MDg3MTIsImV4cCI6MTYwMDc2NzkxMn0.DlVBjnT5O94HHN8ud0Zty8LVr2oxRRY7YcYx5MqeC0g",
+        x_auth_token:token,
       },
     })
       .then((response) => {
-        alert(response.data.message)
+        alert(response.data.message);
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   };
 
   return (
-
-    <ScrollView style={styles.container}>
-      <Text style={{ fontSize: 50 }}>{route.params.course_name}</Text>
-      {list.map((l, i) => {
-        return (
-          <View style={{ flexDirection: "column" }}>
-            <TouchableOpacity
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <ScrollView >
+        <Text style={{ fontSize: 50 }}>{route.params.course_name}</Text>
+        {list.map((l, i) => {
+          return (
+            <View
               key={i + Math.random() * 2357253752}
-              onPress={() => expand(i)}
-              style={{ alignItems: "center", flexDirection: "row" }}
+              style={{ flexDirection: "column" }}
             >
-              {l.expanded ? (
+              <TouchableOpacity
+                onPress={() => expand(i)}
+                style={{ alignItems: "center", flexDirection: "row" }}
+              >
+                {/* {l.expanded ? (
                 <Icon name="caret-up" size={30} style={{ padding: 5 }} />
-              ) : (
+              ) : ( */}
                 <Icon name="caret-down" size={30} style={{ padding: 5 }} />
-              )}
 
-              <Text style={{ fontSize: 25, fontWeight: "bold", padding: 5 }}>
-                {l.list_name}
-              </Text>
-            </TouchableOpacity>
-            {l.expanded &&
-              l.questions.map((question, j) => {
+                <Text style={{ fontSize: 25, fontWeight: "bold", padding: 5 }}>
+                  {l.list_name}
+                </Text>
+              </TouchableOpacity>
+              {l.questions.map((question, j) => {
                 return (
                   <React.Fragment key={j + Math.random() * 2357253752}>
                     <View
@@ -130,28 +130,42 @@ const ListQuestionScreen = ({ route }) => {
                       key={question.question_id}
                       options={question.options}
                       setSelectedOption={(option) => {
+                        question.selected_option = option;
+                        console.log(question);
                         answers.push({
                           question_id: question.question_id,
+                          question_description: question.question_description,
+                          number_options: question.number_options,
                           weight: question.weight,
-                          number_options: question.options.length,
-                          rate: option.id
-                        })
+                        });
                       }}
+                      selectedOption={question.selected_option}
                     />
                   </React.Fragment>
                 );
               })}
-          </View>
-        );
-      })}
-      <TextInput style={{borderWidth:0.5,margin:10,padding:15,borderRadius:10}} placeholder={"If you have anything to add  "} value={free_text} onChangeText={(free_text)=>setFreeText(free_text)}/>
-      <TouchableOpacity onPress={()=>
-        {  if(answers.length !== list.length){alert("Please fill all questions ")}
-        else{
-        submitAnswers()}}} style={{alignSelf:'center',bottom:0,margin:30}}>
-        <Text style={{fontSize:25}}>Submit</Text>
-      </TouchableOpacity>
-    </ScrollView>
+            </View>
+          );
+        })}
+        <TextInput
+          style={{
+            borderWidth: 0.5,
+            margin: 10,
+            padding: 15,
+            borderRadius: 10,
+          }}
+          placeholder={"Give us feedback"}
+          value={freetext}
+          onChangeText={setFreeText}
+        />
+        <TouchableOpacity
+          onPress={() => submitAnswers()}
+          style={{ alignSelf: "center", bottom: 0, margin: 30 }}
+        >
+          <Text style={{ fontSize: 25 }}>Submit</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -165,3 +179,4 @@ const styles = StyleSheet.create({
 });
 
 export default ListQuestionScreen;
+
