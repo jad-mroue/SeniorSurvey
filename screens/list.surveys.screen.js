@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon  from 'react-native-vector-icons/Ionicons';
 import url from '../utils/config';
 
-let token = await AsyncStorage.getItem('token');
+//let token = await AsyncStorage.getItem('token');
 
 const ListSurveysScreen = ({navigation}) => {
     const [pendingSurv,setPendingSurv] = React.useState([
