@@ -4,8 +4,7 @@ import {AsyncStorage, Text,View} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon  from 'react-native-vector-icons/Ionicons';
 import url from '../utils/config';
-
-//let token = await AsyncStorage.getItem('token');
+let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1Iiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2MDEwNDI0NzEsImV4cCI6MTYwMTMwMTY3MX0.8Arj1GQOa9JXheVV-FJAfcRPsfWMlzVDRlmLsx6yRvc";
 
 const ListSurveysScreen = ({navigation}) => {
     const [pendingSurv,setPendingSurv] = React.useState([
