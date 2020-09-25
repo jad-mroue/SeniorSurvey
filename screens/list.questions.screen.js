@@ -10,7 +10,7 @@ import {
 } from "react-native";
 //import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Question from "../components/question.compenent.jsx";
+import Question from "../components/question.compenent.js";
 import Axios from "axios";
 import url from "../utils/config.js";
 //import { LOCATION } from "expo-permissions";
