@@ -5,15 +5,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  TextInput
+  TextInput,
+  KeyboardAvoidingView,
 } from "react-native";
 //import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Question from "../components/question.compenent";
+import Question from "../components/question.compenent.jsx";
 import Axios from "axios";
-import url from "../utils/config";
+import url from "../utils/config.js";
 //import { LOCATION } from "expo-permissions";
-
+let token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1Iiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2MDEwNDI0NzEsImV4cCI6MTYwMTMwMTY3MX0.8Arj1GQOa9JXheVV-FJAfcRPsfWMlzVDRlmLsx6yRvc";
 
 const ListQuestionScreen = ({ route }) => {
   console.log(route.params.section_id);
@@ -46,7 +47,8 @@ const ListQuestionScreen = ({ route }) => {
       // url: url + `student/course/66/1`,
 
       headers: {
-        x_auth_token:  token      },
+        x_auth_token:
+       token,      },
     })
       .then((response) => {
         console.log("here");
@@ -179,4 +181,3 @@ const styles = StyleSheet.create({
 });
 
 export default ListQuestionScreen;
-
