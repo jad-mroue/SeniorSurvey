@@ -18,11 +18,6 @@ const Stack = createStackNavigator()
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  // const [Username, ChangeUsername] = useState('')
-  // const [Email, ChangeEmail] = useState('')
-  // const [Password, ChangePassword] = useState('')
-  //password is used in case user wants to change his password
-  //we compare saved password with entered password to successfully change it
 
   const Auth = (      
     <NavigationContainer>
@@ -49,7 +44,7 @@ const Use = (
         <Stack.Screen name='ListQuestions' options={{title: 'Survey'}}>
           {props => <ListQuestions {...props}  />}
         </Stack.Screen>
-        <Stack.Screen name='Home' options={{title: 'Home'}}>
+        {/* <Stack.Screen name='Home' options={{title: 'Home'}}>
           {props => <Home {...props}  />}
         </Stack.Screen>
         <Stack.Screen name='President' options={{title: 'President Results'}}>
@@ -60,7 +55,7 @@ const Use = (
         </Stack.Screen>
         <Stack.Screen name='Teacher' options={{title: 'Teacher Results'}}>
           {props => <TeacherScreen {...props}  />}
-        </Stack.Screen>
+        </Stack.Screen> */}
       </Stack.Navigator>
     </NavigationContainer>  
 );

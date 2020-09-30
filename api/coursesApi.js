@@ -1,10 +1,20 @@
-import axios from 'axios';
+// import axios from 'axios';
+// import { AsyncStorage } from 'react-native';
+
+// getToken = async () => {
+//     try{
+//         const token = await AsyncStorage.getItem('token');
+//         return token;
+//     }catch(err){
+
+//     }
+// } 
 
 
-export default axios.create({
-    baseURL: `https://server.survey-ul.info/server/api/teacher/courses`,
+// export default axios.create({
+//     baseURL: `https://server.survey-ul.info/server/api/teacher/courses`,
 
-    headers: {
-        'x_auth_key': this.state.x_auth_key
-    }
-});
+//     headers: {
+//         'x_auth_key': getToken(),
+//     }
+// });
