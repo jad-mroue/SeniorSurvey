@@ -7,27 +7,30 @@ import {
   ScrollView,
   TextInput,
   KeyboardAvoidingView,
+  AsyncStorage
 } from "react-native";
 //import Constants from "expo-constants";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Question from "../components/question.compenent.js";
 import Axios from "axios";
-import url from "../utils/config.js";
+import url  from "../utils/config.js";
 //import { LOCATION } from "expo-permissions";
-let token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1Iiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2MDEwNDI0NzEsImV4cCI6MTYwMTMwMTY3MX0.8Arj1GQOa9JXheVV-FJAfcRPsfWMlzVDRlmLsx6yRvc";
 
 const ListQuestionScreen = ({ route }) => {
   console.log(route.params.section_id);
   console.log(route.params.department_id);
   const [list, setList] = React.useState([]);
+  const [answers,setAnswers] = React.useState([])
+  // let answers = [];
 
-  let answers = [];
 
   // const [answers, setAnswers] = React.useState([]);
 
   const [chosenQuestionOption, setChosenQuestionOption] = React.useState([]);
   const [freetext, setFreeText] = React.useState("");
   const [teacher, setTeacher] = React.useState("");
+  const [count, setCount] = React.useState(0);
+  
 
   const expand = (index) => {
     let temp_list = [...list];
@@ -36,9 +39,8 @@ const ListQuestionScreen = ({ route }) => {
     setList(temp_list);
   };
 
-  const getListOfQuestions = () => {
-    // cont token = AsyncStorage.getItem('user_auth_token')
-
+  const getListOfQuestions = async () => {
+    const tkk = await AsyncStorage.getItem('token')
     Axios({
       method: "GET",
       url:
@@ -47,19 +49,26 @@ const ListQuestionScreen = ({ route }) => {
       // url: url + `student/course/66/1`,
 
       headers: {
-        x_auth_token:
-       token,      },
+        x_auth_token: tkk,
+      },
     })
       .then((response) => {
         console.log("here");
         console.log(response.data);
         // con(JSON.stringify(response.data))
+        
         setTeacher(response.data.teacher.teacher_id);
-        let list = response.data.lists;
-        list.forEach((l) => {
+        let ll = response.data.lists;
+        let counter = 0;
+        ll.forEach((l) => {
           l.expanded = false;
+          l.questions.forEach(q=>{
+            counter = counter + 1
+            q.selectedOption = "";
+          })
         });
-        setList(list);
+        setCount(counter)
+        setList(ll);
       })
       .catch((err) => {
         console.log("error");
@@ -68,15 +77,12 @@ const ListQuestionScreen = ({ route }) => {
 
   React.useEffect(() => {
     getListOfQuestions();
-
-    list.forEach((l, i) => {
-      l.questions.forEach((question, j) => {
-        question.selectedOption = "";
-      });
-    });
+    
   }, []);
 
-  const submitAnswers = () => {
+  const submitAnswers = async () => {
+   const tk = await AsyncStorage.getItem('token')
+
     Axios({
       url: url + `student/course/${route.params.section_id}`,
       method: "POST",
@@ -86,7 +92,7 @@ const ListQuestionScreen = ({ route }) => {
         answers,
       },
       headers: {
-        x_auth_token:token,
+        x_auth_token: tk,
       },
     })
       .then((response) => {
@@ -134,12 +140,24 @@ const ListQuestionScreen = ({ route }) => {
                       setSelectedOption={(option) => {
                         question.selected_option = option;
                         console.log(question);
-                        answers.push({
-                          question_id: question.question_id,
-                          question_description: question.question_description,
-                          number_options: question.number_options,
-                          weight: question.weight,
-                        });
+                        
+                        let xxx = answers.filter(a=> a.question_id !== question.question_id)
+
+
+                        setAnswers(xxx)
+                        setAnswers((prevAnswers)=>[
+                          ...prevAnswers,
+
+                          {
+                            question_id: question.question_id,
+                            question_description: question.question_description,
+                            number_options: question.number_options,
+                            weight: question.weight,
+                          }
+                        ])
+              
+                        
+                        // answers.push();
                       }}
                       selectedOption={question.selected_option}
                     />
@@ -161,7 +179,15 @@ const ListQuestionScreen = ({ route }) => {
           onChangeText={setFreeText}
         />
         <TouchableOpacity
-          onPress={() => submitAnswers()}
+          onPress={() =>{
+            
+            if(answers.length != count){
+              alert("Please answer all questions" + answers.length)
+            }else{
+              
+              submitAnswers()
+            }
+          }}
           style={{ alignSelf: "center", bottom: 0, margin: 30 }}
         >
           <Text style={{ fontSize: 25 }}>Submit</Text>
@@ -170,7 +196,12 @@ const ListQuestionScreen = ({ route }) => {
     </KeyboardAvoidingView>
   );
 };
+const containsObject = (obj, list) => {
 
+  return list.some(function(elem) {
+    return elem === obj
+  })
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
