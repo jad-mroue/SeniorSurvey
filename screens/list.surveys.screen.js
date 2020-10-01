@@ -3,8 +3,8 @@ import React from 'react';
 import {AsyncStorage, Text,View} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon  from 'react-native-vector-icons/Ionicons';
-import url from '../utils/config';
-let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1Iiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2MDEwNDI0NzEsImV4cCI6MTYwMTMwMTY3MX0.8Arj1GQOa9JXheVV-FJAfcRPsfWMlzVDRlmLsx6yRvc";
+import url  from '../utils/config.js';
+
 
 const ListSurveysScreen = ({navigation}) => {
     const [pendingSurv,setPendingSurv] = React.useState([
@@ -16,13 +16,13 @@ const ListSurveysScreen = ({navigation}) => {
     const [pendingShown,setPendingShown] = React.useState(false)
     const [completedShown,setCompletedShown] = React.useState(false)
 
-    const getSurveys = () => {
-        // cont token = AsyncStorage.getItem('user_auth_token')
+    const getSurveys =  async () => {
+       const tk = await AsyncStorage.getItem('token')
         Axios({
             method:'GET',
             url: url + "student/courses",
             headers: {
-                x_auth_token: token
+                x_auth_token: tk
             }
         }).then((response)=> {
             console.log(response.data);
