@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Image, TextInput } from 'react-native';
-import RadioGroup from 'react-native-radio-button-group';
+import RadioGroup from 'react-native-radio-buttons-group';
 
 
 const Option = ({ options,setOption }) => {
@@ -12,11 +12,7 @@ const Option = ({ options,setOption }) => {
   })
   return (
     <View style={{ margin: 10 }}>
-      <RadioGroup
-        options={opts}
-        horizontal
-        onChange={(option)=> setOption(option)}
-      />
+      
     </View>
   )
 };
