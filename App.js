@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage ,Animated} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 import Inputs from './LoginPage/Inputs'
@@ -13,6 +13,9 @@ import Home from './screens/HomeScreen'
 import DeanScreen from './screens/DeanScreen'
 import PresidentScreen from './screens/PresidentScreen'
 import TeacherScreen from './screens/TeacherScreen'
+import { SvgXml } from 'react-native-svg'
+import RadioGroup from 'react-native-radio-buttons-group';
+
 const Stack = createStackNavigator()
 
 
