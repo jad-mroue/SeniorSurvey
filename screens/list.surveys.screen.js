@@ -13,7 +13,7 @@ const ListSurveysScreen = ({navigation}) => {
     const [completedSurv,setCompletedSurv] = React.useState([
        
     ])
-    const [pendingShown,setPendingShown] = React.useState(false)
+    const [pendingShown,setPendingShown] = React.useState(true)
     const [completedShown,setCompletedShown] = React.useState(false)
 
     const getSurveys =  async () => {
@@ -31,9 +31,14 @@ const ListSurveysScreen = ({navigation}) => {
         })
     }
 
-    React.useEffect(()=>{
-        getSurveys()
-    },[])
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+          // do something
+          getSurveys();
+        });
+    
+        return unsubscribe;
+      }, [navigation]);
 
 
     return <View>
@@ -60,7 +65,6 @@ const ListSurveysScreen = ({navigation}) => {
         {
             completedShown && completedSurv.map((cs)=>{
                 return <TouchableOpacity key={Math.random()*4567898765445} style={{backgroundColor: '#000',margin:5,padding:10}} onPress={()=>{
-                    navigation.navigate('ListQuestions', {surveyid: cs.course_code,section_id: cs.section_id,department_id: cs.department_id,course_name: cs.course_name})
                 }}><Text style={{marginHorizontal: 30,fontSize: 18,color:'#fff',textAlign:'center'}}>{cs.course_name}</Text></TouchableOpacity>
             })
         }
