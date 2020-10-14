@@ -15,8 +15,9 @@ import Question from "../components/question.compenent.js";
 import Axios from "axios";
 import url from "../utils/config.js";
 import { log } from "react-native-reanimated";
-import { ActivityIndicator } from "react-native-paper";
 //import { LOCATION } from "expo-permissions";
+
+
 
 const ListQuestionScreen = ({ route,navigation }) => {
   console.log(route.params.section_id);
@@ -33,8 +34,6 @@ const ListQuestionScreen = ({ route,navigation }) => {
   const [freetext, setFreeText] = React.useState("");
   const [teacher, setTeacher] = React.useState("");
   const [count, setCount] = React.useState(0);
-  const [submittingDone,setSubmittingDone] = React.useState(false)
-
   const expand = (index) => {
     let temp_list = [...list];
     temp_list[index].expanded = !temp_list[index].expanded;
@@ -62,16 +61,10 @@ const ListQuestionScreen = ({ route,navigation }) => {
         setTeacherr(response.data.teacher);
         setTeacher(response.data.teacher.teacher_id);
         let ll = response.data.lists;
-        let counter = 0;
-        ll.forEach((l) => {
-          l.expanded = false;
-          l.questions.forEach((q) => {
-            counter = counter + 1;
-            q.selectedOption = "";
-          });
-        });
-        setCount(counter);
-        setList(ll);
+        console.log(JSON.stringify(ll));
+
+        setList(ll)
+        
       })
       .catch((err) => {
         console.log("error");
@@ -81,20 +74,15 @@ const ListQuestionScreen = ({ route,navigation }) => {
   React.useEffect(() => {
     getListOfQuestions();
   }, []);
+  
 
   const submitAnswers = async () => {
-    setSubmittingDone(true)
     let allanswers = [];
     list.forEach((l) => {
       l.questions.forEach((q) => {
         allanswers.push(q.answer[0]);
       });
     });
-
-    console.log(allanswers);
-
-
-    // setAnswers(allanswers)
 
     const tk = await AsyncStorage.getItem("token");
 
@@ -104,7 +92,7 @@ const ListQuestionScreen = ({ route,navigation }) => {
       data: {
         free_text: freetext,
         teacher_id: teacher,
-        answers: allanswers,
+        answers:allanswers,
       },
       headers: {
         x_auth_token: tk,
@@ -112,13 +100,12 @@ const ListQuestionScreen = ({ route,navigation }) => {
       },
     })
       .then((response) => {
-        setSubmittingDone(false)
         navigation.navigate('ListSurveysScreen')
         alert(response.data.message);
         
       })
       .catch((error) => {
-        console.log(JSON.stringify(error.response));
+        alert("Error Happened Please answer all questions and give a feedback")
       });
   };
 
@@ -136,20 +123,8 @@ const ListQuestionScreen = ({ route,navigation }) => {
         <Text style={[styles.title, styles.Red]}>
           {route.params.course_name}
         </Text>
-        <TextInput
-          style={{
-            borderWidth: 0.5,
-            margin: 10,
-            padding: 15,
-            borderRadius: 10,
-            height: 80,
-            fontSize: 25
-          }}
-          placeholder={"Quick Feedback before you start"}
-          onChangeText={(text) => setFreeText(text)}
-          
-          value={freetext}
-        />
+        
+       
 
         {list.map((l, i) => {
           return (
@@ -167,7 +142,7 @@ const ListQuestionScreen = ({ route,navigation }) => {
                 <Icon name="caret-down" size={30} style={{ padding: 5 }} />
 
                 <Text style={{ fontSize: 25, fontWeight: "bold", padding: 5 }}>
-                  {l.list_name}
+                  {l.list_name && l.list_name}
                 </Text>
               </TouchableOpacity>
               {l.questions.map((question, j) => {
@@ -180,34 +155,32 @@ const ListQuestionScreen = ({ route,navigation }) => {
                     <Question
                       question={question.question_description}
                       key={question.question_id}
-                      options={question.options.map((option) => {
+                      options={question.options.map(option=>{
                         return {
                           label: option.option_description,
                           value: option.option_id,
-                        };
+                        }
                       })}
-                      setSelectedOption={(options) => {
-                        let selected = options.find((e) => e.selected == true);
-                        let rateQuestion = options.indexOf(selected) + 1;
-                        answers.filter(
-                          (a) => a.question_id !== question.question_id
-                        );
+                      setSelectedOption={(value) => {
+                        let val = question.options.find(option => option.option_id === value)
 
-                        console.log(rateQuestion);
+                        let rateValue = question.options.indexOf(val) + 1
+                        answers.filter((a)=>a.question_id !== question.question_id)
 
-                        let anss = [...answers];
+                        let oldAnswers = [...answers]
 
-                        anss.push({
+                        oldAnswers.push({
                           question_id: question.question_id,
                           question_description: question.question_description,
                           number_options: question.number_options,
                           weight: question.weight,
-                          rate: rateQuestion,
-                        });
+                          rate: rateValue
+                        })
 
-                        question.answer = anss;
+                        question.answer = oldAnswers
+                        // console.log(oldAnswers)
+                        
                       }}
-                      selectedOption={question.selected_option}
                     />
                   </React.Fragment>
                 );
@@ -215,7 +188,25 @@ const ListQuestionScreen = ({ route,navigation }) => {
             </View>
           );
         })}
+
+
         
+<TextInput
+          style={{
+            borderWidth: 0.5,
+            margin: 10,
+            padding: 15,
+            borderRadius: 10,
+            height: 80,
+            fontSize: 25
+          }}
+          placeholder={"Quick Feedback before you finish"}
+          onChange={(event)=>setFreeText(event.nativeEvent.text)}
+          
+          value={freetext}
+      
+        />
+         
         <Text style={{ margin: 10 }}>
           {
             "if your comment is innapropriate it will be reported and your ID will be known"
@@ -229,7 +220,7 @@ const ListQuestionScreen = ({ route,navigation }) => {
           }}
           style={{ alignSelf: "center", bottom: 0, margin: 30 }}
         >
-          {submittingDone ? <ActivityIndicator /> : <Text style={{ fontSize: 25 }}>Submit</Text>}
+          <Text style={{ fontSize: 25 }}>Submit</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
