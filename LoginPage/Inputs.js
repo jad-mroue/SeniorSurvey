@@ -75,17 +75,6 @@ export default class Inputs extends Component{
          await AsyncStorage.setItem('Email', email)
          await AsyncStorage.setItem('FirstName', fname)
          await AsyncStorage.setItem('LastName', lname)
-         // await AsyncStorage.multiSet(
-         //    [
-         //       ['token', token]
-         //       ['ID', id],
-         //       ['Password', password],
-         //       ['Role', role],
-         //       ['Email', email],
-         //       ['FirstName', fname],
-         //       ['LastName', lname]
-         //    ]
-         // )
       }
       catch(error){
          console.log("\n\n\nError in Async MultiSet\n\n\n" + error.message)
@@ -99,6 +88,7 @@ export default class Inputs extends Component{
    LoginRemebered = async () => {
       this.getInfo()
       const loginURL = "https://server.survey-ul.info/server/api/auth/login"
+      console.log("\n\n\n" + this.state.id + "\n\n\n")
       const user = {
          id: this.state.id,
          password: this.state.password,
@@ -119,7 +109,7 @@ export default class Inputs extends Component{
             this.props.onLoginPress()
          }else{
             if(response.status === 401){
-               Alert.alert(response.status,': Check your credentials or Internet connection')
+               Alert.alert('Check your credentials or Internet connection')
             }
             if(response.status === 404){
                Alert.alert('User not found. Please try again.')
@@ -166,10 +156,12 @@ export default class Inputs extends Component{
       }
   }
    render(){
-      // const token = AsyncStorage.getItem('token')
-      // if(token !== true){
-      //    LoginRemebered()
-      // }
+      const token = AsyncStorage.getItem('token')
+      let x = 0;
+      if(token && x){
+         this.LoginRemebered();
+         x = 1;
+      }
       return (
         <View style={styles.container_external}>
          <View style = {styles.container}>
