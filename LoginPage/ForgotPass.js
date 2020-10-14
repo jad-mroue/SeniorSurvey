@@ -12,6 +12,7 @@ class ForgotPass extends Component {
   handleEmail = (email) => {
     this.setState({email: email})
   }
+  //sending api request to reset password
   forgotpass = async (ID, email, Role) => {
     const forgotUrl = "https://server.survey-ul.info/server/api/auth/forgot"
     const user = {
@@ -51,6 +52,7 @@ class ForgotPass extends Component {
   ])
  }
   render() {
+    //rendering page design and components 
     return (
       <View style= {styles.container_external}>
       <View style = {styles.container}>

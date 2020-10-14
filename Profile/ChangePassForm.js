@@ -13,6 +13,7 @@ export default class ChangePassForm extends Component{
         BorderColor: '#1C2039',
         BorderColor_Confirm: '#1C2039'
     } 
+    //sending api request to change password
     ChangePassword = async (old_password, new_password) => {
         const forgotUrl = "https://server.survey-ul.info/server/api/profile/password"
         const password_change = {
@@ -65,6 +66,7 @@ export default class ChangePassForm extends Component{
     handleConfirmPassword = (text) => {
         this.setState({confirm_new_pass: text})
     }
+    //comparing new and confirmation password 
     CheckConfirmPassword = (pass) => {
         if(this.state.new_pass === pass){
             this.setState({BorderColor_Confirm: '#5bea5b'})
@@ -73,6 +75,7 @@ export default class ChangePassForm extends Component{
             this.setState({BorderColor_Confirm: 'red'})
         }
     }
+    //checking password length and changing graphical appearance accordingly
     CheckPassword = (pass) => {
         if(pass.length < 3){
             this.setState({BorderColor: 'red'})

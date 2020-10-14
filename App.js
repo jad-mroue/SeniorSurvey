@@ -21,7 +21,7 @@ const Stack = createStackNavigator()
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-
+  //logging in stack navigator
   const Auth = (      
     <NavigationContainer>
       <Stack.Navigator>
@@ -32,6 +32,7 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>  
 );
+//using the application services stack navigator
 const Use = (
     <NavigationContainer>
       <Stack.Navigator>
@@ -62,7 +63,8 @@ const Use = (
       </Stack.Navigator>
     </NavigationContainer>  
 );
-
+  //if user is not logged in go to the login navigation (login and forgot password pages)
+  //else go to the authenticated navigation (profile, change password, survey, ...)
   if(!isLoggedIn){
     return (
       Auth
@@ -74,24 +76,3 @@ const Use = (
     );
   }
 }
-  
-  // _retrieveData = async () => {
-  //   try{
-  //     const ID = await AsyncStorage.getItem('ID')
-  //     const email = await AsyncStorage.getItem('Email')
-  //     const password = await AsyncStorage.getItem('password')
-  //     const role = await AsyncStorage.getItem('Role')
-  //     const fname = await AsyncStorage.getItem('FirstName')
-  //     const lname = await AsyncStorage.getItem('LastName')
-  //     if(ID !== null && email !== null && password !== null && role !== null && fname !== null && lname !== null)
-  //     {
-  
-  //     }
-  //     else{
-  
-  //     }
-  //   }
-  //   catch(error){
-  
-  //   }
-  // }

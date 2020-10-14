@@ -12,6 +12,7 @@ export default class Profile extends Component{
         LastName: '',
         token: ''
     }
+    //retrieving user data from AsyncStorage and saving them in states 
     getInfo = async () => {
         try{
             const token = await AsyncStorage.getItem('token')
@@ -33,6 +34,7 @@ export default class Profile extends Component{
             Alert.alert('Error:',err.message)
         }
     }
+    //log out function
     Logout = () => {
         AsyncStorage.multiRemove([
             ['token']

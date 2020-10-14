@@ -22,7 +22,7 @@ export default class Inputs extends Component{
    handlePassword = (text) => {
       this.setState({ password: text })
    }
-
+   //sending api request to login
    login = async (ID, pass, Role) => {
       const loginURL = "https://server.survey-ul.info/server/api/auth/login"
       const user = {
@@ -66,6 +66,7 @@ export default class Inputs extends Component{
       this.setState({ isLoggingIn: true, message: '' });
 
    }
+   //setting user data in AsyncStorage for further usage 
    setInAsyncStorage = async (id, fname, lname, email, password, role, token) => {
       try{
          await AsyncStorage.setItem('token', token)
@@ -127,6 +128,7 @@ export default class Inputs extends Component{
       }
 
    }
+   //retrieving user data from AsyncStorage and saving them in states 
    getInfo = async () => {
       try{
           const token = await AsyncStorage.getItem('token')
@@ -156,12 +158,12 @@ export default class Inputs extends Component{
       }
   }
    render(){
-      const token = AsyncStorage.getItem('token')
-      let x = 0;
-      if(token && x){
-         this.LoginRemebered();
-         x = 1;
-      }
+      // const token = AsyncStorage.getItem('token')
+      // let x = 0;
+      // if(token && x){
+      //    this.LoginRemebered();
+      //    x = 1;
+      // }
       return (
         <View style={styles.container_external}>
          <View style = {styles.container}>
